@@ -1,0 +1,30 @@
+#! /bin/bash
+cd /mnt/c/Users/ememe/Desktop/gulpTest1/app/scss && (
+if test $2 == -r
+then
+cd Used_Styles && ls -1 | grep -i $1
+elif test $2 == -mb
+then
+cd Used_Styles && cp $1 ../ && cd .. && mv $1 style.scss
+elif test $2 == -remove
+then
+for i in $1
+do
+cd Used_Styles && rm $i.scss && cd ../../css/styles && rm $i.css && cd ../../scss
+done && cd /mnt/c/Users/ememe/Desktop/gulpTest1/app/css/styles && git commit -a -m"$1 removed" && git push origin master && git push production master
+elif test $2 == -bu
+then
+cp style.scss Used_Styles && cd Used_Styles && mv style.scss style$1`date +%F`.scss && cd ../../css && cp style.css styles && 
+cd styles && mv style.css style$1`date +%F`.css && git add . && git commit -a -m"$3" && git push origin master && git push production master
+elif test $2 == -overwrite
+then
+cp style.scss Used_Styles && cd Used_Styles && mv style.scss $1.scss && cd ../../css && cp style.css styles && 
+cd styles && mv style.css $1.css && git add . && git commit -a -m"$3" && git push origin master && git push production master
+elif test $2 == -newbuild
+then
+cat base.stylesheet > style.scss && cp style.scss Used_Styles && cd Used_Styles && mv style.scss style$1`date +%F`.scss && cd ../../css && cp style.css styles && 
+cd styles && mv style.css style$1`date +%F`.css && git add . && git commit -a -m"$3" && git push origin master && git push production master
+else
+echo "Select a valid option"
+fi
+)

@@ -1,0 +1,7 @@
+#!/bin/bash
+cd /mnt/c/Users/ememe/Downloads/tiny$1 &&  (
+
+SVGS=` ls | sed -r 's/ +/\n/g' | grep .svg ` 
+for L in $SVGS; do sed -r '0,/</{s/</<?xml version=\"1\.0\" encoding=\"utf-8\"?></}' $L | sed -r 's/â/a/g' > f-$L && rm $L; done
+
+)

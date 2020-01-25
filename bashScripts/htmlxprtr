@@ -1,0 +1,19 @@
+#!/bin/bash
+cd '/mnt/c/Users/ememe/Desktop/gulpTest1/app'
+if [ `pwd` == '/mnt/c/Users/ememe/Desktop/gulpTest1/app' ]
+then
+
+if test $2 == -old
+then
+echo "index.html is being replaced"
+( curl "$1" > index.html && cat index.html | sed  '0,/<\/style>.<!-- Facebook Pixel Code -->/{s/<\/style>.<!-- Facebook Pixel Code -->/ --> <!-- Facebook Pixel Code -->/}' | sed '0,/<style>./{s/<style>./ <!-- /}' | sed -r 's/<!-- Facebook Pixel Code -->/<link rel=\"stylesheet\" href=\"\.\/css\/style\.css\">  <!-- Facebook Pixel Code -->/' | tee index.html ) && echo "HTML Replaced"
+elif test $2 == -new
+then
+( curl "$1" > index.html && cat index.html | sed -r 's/https:\/\/style\.tomsfinds\.com\// /' | sed -r 's/<!-- Facebook Pixel Code -->/<link rel=\"stylesheet\" href=\"\.\/css\/style\.css\">  <!-- Facebook Pixel Code -->/' | tee index.html ) && echo "HTML Replaced"
+else  
+echo "select a vaild option"
+fi
+
+else
+echo "*************************\ngulpTest1/app was removed!!\n*************************\n"
+fi

@@ -1,0 +1,25 @@
+#!/bin/bash
+cd '/mnt/c/Users/ememe/Downloads' 
+if [ `pwd` == '/mnt/c/Users/ememe/Downloads' ] 
+then
+(unzip drive-download-'*'.zip -d drive$1 && rm -r drive-download-*.zip && mkdir tiny$1 && cd drive$1 && spaceremover && mv *.xd *.gif *.mp4 *.svg ../tiny$1)
+
+if test $2 == -t
+then
+cd drive$1 && FILES=`ls` && for i in $FILES
+do
+curl https://api.tinify.com/shrink \
+     --user api:4k4FWC2QH0wJXPzS8hwnDxcyHwhhYgl0 \
+      --data-binary @$i \
+      --dump-header /dev/stdout | sed -r 's/\"+/\n/g' | sed -r 's/Location: https:/\n/' |
+        curl `grep https:` \
+     --user api:4k4FWC2QH0wJXPzS8hwnDxcyHwhhYgl0 \
+     --output $i
+done && mv `ls` ../tiny$1
+fi
+
+echo `svgformat $1` && echo "SVGs Formatted"
+
+else
+echo "Downloads was not found??"
+fi
